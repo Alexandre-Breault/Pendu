@@ -17,11 +17,60 @@ namespace pendu
         /// </summary>
         private static Random _Random = new Random();
         /// <summary>
+        /// Récupére la saisie de l'utilisateur
+        /// </summary>
+        private static string _UserChoice;
+
+        /// <summary>
         /// Méthode d'exécution principal
         /// </summary>
         /// <param name="args"></param>
         static void Main(string[] args)
 
+        {
+            ShowMenu();
+
+            bool choiceOK = true;
+
+            do
+            {
+                _UserChoice = Console.ReadLine();
+
+                switch (_UserChoice)
+                {
+                    case "1":
+                        Pendu();
+                        //TODO
+                        break;
+                    case "2":
+                        AddWords();
+                        //TODO
+                        break;
+                    case "3":
+                        Console.Clear();
+                        Console.WriteLine("bye ! ");
+                        Console.ReadKey();
+                        choiceOK = false;
+                        break;
+                    default:
+                        Console.WriteLine("saisie invalide, veuillez recommencer");
+                        break;
+                }
+            } while (choiceOK);
+            
+        }
+        static void ShowMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("Bienvenue dans le jeu Pendu !");
+            Console.WriteLine("1 - Pendu");
+            Console.WriteLine("2 - Ajouter des mots pour le jeu du pendu");
+            Console.WriteLine("3 - Quitter l'application");
+        }
+        /// <summary>
+        /// Appele la fonction pour lancer le jeu du pendu
+        /// </summary>
+        static void Pendu()
         {
             //mot générer pour le mot cacher
             string wordToFindString = null;
@@ -117,6 +166,7 @@ namespace pendu
                     }
                     Console.WriteLine("Plus de vie tu as perdu");
                     Console.WriteLine("Le mot était : " + wordToFindString);
+                    ShowMenu();
 
                 }
                 //Si l'utilisateur a trouver le mot il a gagné 
@@ -127,20 +177,7 @@ namespace pendu
                     Console.WriteLine("Nombre de vie restant : " + lifeCount);
                     Console.WriteLine("Le mot que tu as trouvé : " + wordToFindString);
                     Console.WriteLine("Tu as gagné BRAVO !");
-                }
-                if (isFinished == true)
-                {
-                    Console.WriteLine("Recommencer une partie (y/n) ");
-                    string restart = Console.ReadLine();
-                    switch (restart)
-                    {
-                        case "y":
-                            isFinished = false;
-                            break;
-                        case "n":
-                            isFinished = true;
-                            break;
-                    }
+                    ShowMenu();
                 }
             } while (!isFinished);
 
@@ -165,6 +202,16 @@ namespace pendu
             string[] dessin = File.ReadAllText("..\\..\\..\\Data\\Dessin.txt").Replace("\r", "").Split('\n');
             return dessin[position];
         }
-
+        static void AddWords()
+        {
+            Console.Clear();
+            Console.WriteLine("Ajouter des mots au dictionnaire");
+            string text = Environment.NewLine+Console.ReadLine();
+            using (System.IO.StreamWriter file =
+                        new System.IO.StreamWriter("..\\..\\..\\Data\\Dictionnaire.txt", true))
+            {
+                file.WriteLine(text);
+            }
+        }
     }
 }
