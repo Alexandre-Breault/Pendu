@@ -1,0 +1,10 @@
+﻿orange
+rouge
+vert
+train
+salle
+ordinateur
+souris
+clavier
+prison
+feuille
